@@ -1,0 +1,30 @@
+{{ define "main" }}
+<article>
+  <h2>{{ .Title }}</h2>
+  <div class="date">{{ .Date.Format "January 2, 2006" }}</div>
+  
+  {{ if .Params.status }}
+  <div style="margin: 1rem 0;">
+    <span class="status status-{{ .Params.status }}">{{ .Params.status }}</span>
+  </div>
+  {{ end }}
+  
+  {{ if .Params.summary }}
+  <div style="background: #ecf0f1; padding: 1rem; border-left: 4px solid #3498db; margin: 1rem 0;">
+    <strong>Summary:</strong> {{ .Params.summary }}
+  </div>
+  {{ end }}
+  
+  {{ if .Params.tags }}
+  <div class="tags">
+    {{ range .Params.tags }}
+    <span class="tag">#{{ . }}</span>
+    {{ end }}
+  </div>
+  {{ end }}
+  
+  <div style="margin-top: 2rem;">
+    {{ .Content | replaceRE "\\[\\[([^\\]]+)\\]\\]" "<a href=\"/$1/\">$1</a>" | safeHTML }}
+  </div>
+</article>
+{{ end }}

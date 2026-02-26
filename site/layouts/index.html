@@ -1,0 +1,33 @@
+{{ define "main" }}
+<h2>Welcome to Project Hub</h2>
+<p>{{ .Site.Params.description }}</p>
+
+<h2>Recent Projects</h2>
+{{ if where .Site.Pages "Section" "Projects" }}
+<ul>
+  {{ range first 5 (where .Site.Pages "Section" "Projects") }}
+  <li>
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    {{ if .Params.status }}<span class="status status-{{ .Params.status }}">{{ .Params.status }}</span>{{ end }}
+    <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
+  </li>
+  {{ end }}
+</ul>
+{{ else }}
+<p>No projects yet. Use <code>python scripts/new_project.py "My Project"</code> to create one.</p>
+{{ end }}
+
+<h2>Recent Notes</h2>
+{{ if where .Site.Pages "Section" "Notes" }}
+<ul>
+  {{ range first 5 (where .Site.Pages "Section" "Notes") }}
+  <li>
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
+  </li>
+  {{ end }}
+</ul>
+{{ else }}
+<p>No notes yet. Run <code>scripts/sync_content.sh</code> to sync from your vault.</p>
+{{ end }}
+{{ end }}

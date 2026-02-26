@@ -1,0 +1,23 @@
+baseURL = "http://localhost:1313/"
+languageCode = "en-us"
+title = "Project Hub"
+canonifyURLs = false
+
+# Enable watching for fast dev reload
+enableLiveReload = true
+enableGitInfo = false
+
+# Taxonomies
+[taxonomies]
+  status = "status"
+  tag = "tags"
+
+[params]
+  description = "A curated collection of projects and notes from your Obsidian vault"
+  site_logo = ""
+  favicon = ""
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
+  page = ["HTML"]

@@ -1,0 +1,59 @@
+# Hugo public build output
+/site/public/
+/site/resources/
+
+# Hugo cache
+.hugo_build.lock
+
+# Obsidian internal folders
+.obsidian/
+
+# macOS system files
+.DS_Store
+Thumbs.db
+
+# iCloud sync markers
+.icloud
+*.icloud
+
+# IDE/editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Environment variables
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+
+# Node (if using for other purposes)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+.tmp/
+temp/
+
+# Dependencies (if any)
+/site/themes/*/
+
+# Local Docker volumes (if used)
+*.volume
+
+# Git
+.git/

@@ -1,0 +1,39 @@
+{{ define "main" }}
+<h2>{{ .Title }}</h2>
+{{ if eq .Section "Projects" }}
+  <h3>By Status</h3>
+  {{ $pages := where .Pages "Type" "page" }}
+  
+  {{ range $status := slice "idea" "active" "done" }}
+    {{ $filtered := where $pages "Params.status" $status }}
+    {{ if $filtered }}
+      <h4 class="status status-{{ $status }}">{{ $status | title }}</h4>
+      <ul>
+        {{ range $filtered }}
+        <li>
+          <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
+          {{ if .Params.summary }}<p>{{ .Params.summary }}</p>{{ end }}
+        </li>
+        {{ end }}
+      </ul>
+    {{ end }}
+  {{ end }}
+{{ else if eq .Section "Notes" }}
+  <h3>All Notes</h3>
+  <ul>
+    {{ range .Pages.ByDate.Reverse }}
+    <li>
+      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
+    </li>
+    {{ end }}
+  </ul>
+{{ else }}
+  <ul>
+    {{ range .Pages }}
+    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+    {{ end }}
+  </ul>
+{{ end }}
+{{ end }}
