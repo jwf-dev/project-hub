@@ -10,27 +10,18 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
   <link rel="stylesheet" href="{{ .Site.BaseURL }}css/shock-inspired.css">
   
-  <!-- Favicon (optional) -->
-  {{ if .Site.Params.favicon }}<link rel="icon" href="{{ .Site.Params.favicon }}">{{ end }}
-  
-  <!-- Open Graph / Facebook -->
+  <!-- Meta Tags -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ .Permalink }}">
   <meta property="og:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
   <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="{{ .Permalink }}">
-  <meta property="twitter:title" content="{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }}{{ end }}">
-  <meta property="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
-  
-
+  <meta name="twitter:card" content="summary">
 </head>
 <body>
+  <!-- Header -->
   <header class="site-header">
     <div class="header-content">
-      <div class="logo-section">
+      <div>
         <h1 class="site-title">
           <a href="/">{{ .Site.Title }}</a>
         </h1>
@@ -46,13 +37,41 @@
     </div>
   </header>
 
+  <!-- Sidebar -->
+  <aside class="site-sidebar">
+    {{ if not .IsHome }}
+    <nav class="sidebar-nav">
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Navigation</div>
+        <a href="/" class="sidebar-link{{ if .IsHome }} active{{ end }}">Home</a>
+        <a href="/projects/" class="sidebar-link{{ if in .File.Dir "Projects" }} active{{ end }}">Projects</a>
+        <a href="/notes/" class="sidebar-link{{ if in .File.Dir "Notes" }} active{{ end }}">Notes</a>
+      </div>
+
+      {{ if and .File (in .File.Dir "Projects") }}
+      <div class="sidebar-section">
+        <div class="sidebar-section-title">Project Status</div>
+        <a href="/status/idea/" class="sidebar-link">Ideas</a>
+        <a href="/status/active/" class="sidebar-link">Active</a>
+        <a href="/status/done/" class="sidebar-link">Completed</a>
+      </div>
+      {{ end }}
+
+
+    </nav>
+    {{ end }}
+  </aside>
+
+  <!-- Main Content -->
   <main class="site-main">
     {{ block "main" . }}{{ end }}
   </main>
 
+  <!-- Footer -->
   <footer class="site-footer">
     <div class="footer-content">
-      <p>&copy; {{ now.Year }} {{ .Site.Title }}. Built with <a href="https://gohugo.io">Hugo</a> · Running locally on your home network</p>
+      <p>&copy; {{ now.Year }} {{ .Site.Title }}</p>
+      <p>Built with <a href="https://gohugo.io">Hugo</a></p>
       {{ with .Site.Params.socialIcons }}
       <div class="footer-links">
         {{ range . }}
@@ -62,7 +81,5 @@
       {{ end }}
     </div>
   </footer>
-
-
 </body>
 </html>

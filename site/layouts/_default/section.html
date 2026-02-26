@@ -1,181 +1,78 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
-{{ if .Description }}<p>{{ .Description }}</p>{{ end }}
+<div class="page-header">
+  <h1>{{ .Title }}</h1>
+  {{ if .Description }}
+  <p class="page-description">{{ .Description }}</p>
+  {{ end }}
+</div>
 
-{{ if in .File.Dir "Projects" -}}
-  <div class="projects-section">
-    {{ $pages := .RegularPages }}
-    {{ range $status := slice "idea" "active" "done" -}}
-      {{ $filtered := where $pages "Params.status" $status }}
-      {{ if $filtered -}}
-        <section class="status-group">
-          <h2 id="{{ $status }}">
-            <span class="status-badge status-{{ $status }}">{{ $status | title }}</span>
-          </h2>
-          <div class="projects-grid">
-            {{ range $filtered -}}
-            <article class="project-card">
-              <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
-              <p class="date">{{ .Date.Format "Jan 2, 2006" }}</p>
-              {{ if .Params.summary }}
-              <p class="summary">{{ .Params.summary }}</p>
-              {{ end }}
-              {{ if .Params.tags }}
-              <div class="tags">
-                {{ range .Params.tags }}
-                <span class="tag">#{{ . }}</span>
-                {{ end }}
-              </div>
-              {{ end }}
-            </article>
+{{ if in .File.Dir "Projects" }}
+  <!-- Projects grouped by status -->
+  {{ range $status := slice "idea" "active" "done" }}
+    {{ $filtered := where $.RegularPages "Params.status" $status }}
+    {{ if $filtered }}
+    <section style="margin-bottom: 3rem;">
+      <h2>
+        <span class="badge badge-{{ $status }}" style="margin-right: 1rem; vertical-align: middle;">
+          {{ $status }}
+        </span>
+      </h2>
+      <div class="cards-grid">
+        {{ range $filtered }}
+        <div class="card">
+          <h3 class="card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+          <div class="card-meta">
+            <span class="card-date">{{ .Date.Format "Jan 2, 2006" }}</span>
+          </div>
+          {{ if .Params.summary }}
+          <p class="card-summary">{{ .Params.summary }}</p>
+          {{ end }}
+          {{ if .Params.tags }}
+          <div class="tags">
+            {{ range .Params.tags }}
+            <a href="/tags/{{ . | urlize }}/" class="tag">#{{ . }}</a>
             {{ end }}
           </div>
-        </section>
-      {{ end }}
+          {{ end }}
+        </div>
+        {{ end }}
+      </div>
+    </section>
     {{ end }}
-  </div>
+  {{ end }}
 
-{{ else if in .File.Dir "Notes" -}}
-  <div class="notes-section">
-    <h2>All Notes</h2>
-    {{ $pages := .RegularPages }}
-    {{ if $pages }}
-    <ul class="notes-list">
-      {{ range $pages.ByDate.Reverse -}}
-      <li>
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-        <span class="date">{{ .Date.Format "Jan 2, 2006" }}</span>
+{{ else if in .File.Dir "Notes" }}
+  <!-- Notes list -->
+  <section>
+    <ul class="list-view">
+      {{ range $.RegularPages.ByDate.Reverse }}
+      <li class="list-item">
+        <div>
+          <h4 class="list-item-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
+          <p class="text-muted" style="margin: 0.5rem 0 0 0;">
+            {{ .Date.Format "Jan 2, 2006" }}
+            {{ if .Params.tags }}
+            · 
+            {{ range first 3 .Params.tags }}
+            <a href="/tags/{{ . | urlize }}/" class="tag">#{{ . }}</a>
+            {{ end }}
+            {{ end }}
+          </p>
+        </div>
       </li>
       {{ end }}
     </ul>
-    {{ else }}
-    <p style="color: #999;">No notes yet. Run <code>./scripts/sync_content.sh</code> to sync from your vault.</p>
+  </section>
+
+{{ else }}
+  <!-- Default section -->
+  <div class="cards-grid">
+    {{ range $.RegularPages }}
+    <div class="card">
+      <h3 class="card-title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      <p class="card-summary">{{ .Summary }}</p>
+    </div>
     {{ end }}
   </div>
-
-{{ else -}}
-  <ul>
-    {{ range .RegularPages }}
-    <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
-    {{ end }}
-  </ul>
 {{ end }}
-
-<style>
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-  }
-
-  .project-card {
-    padding: 1.5rem;
-    border: 1px solid #ddd;
-    border-radius: 0.5rem;
-    background: #fafafa;
-    transition: all 0.2s ease;
-  }
-
-  .project-card:hover {
-    border-color: #3498db;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15);
-    transform: translateY(-2px);
-  }
-
-  .project-card h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.2rem;
-  }
-
-  .project-card a {
-    color: #2c3e50;
-    text-decoration: none;
-  }
-
-  .project-card a:hover {
-    color: #3498db;
-  }
-
-  .date {
-    color: #999;
-    font-size: 0.9rem;
-  }
-
-  .summary {
-    margin: 0.75rem 0;
-    color: #555;
-    line-height: 1.5;
-  }
-
-  .tags {
-    margin-top: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-  }
-
-  .tag {
-    display: inline-block;
-    background: #e0e0e0;
-    color: #2c3e50;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-size: 0.85rem;
-  }
-
-  .status-badge {
-    display: inline-block;
-    padding: 0.35rem 1rem;
-    border-radius: 1rem;
-    font-weight: bold;
-    color: white;
-    font-size: 0.9rem;
-  }
-
-  .status-idea {
-    background: #95a5a6;
-  }
-
-  .status-active {
-    background: #2ecc71;
-  }
-
-  .status-done {
-    background: #3498db;
-  }
-
-  .status-group {
-    margin-bottom: 3rem;
-  }
-
-  .status-group h2 {
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #ecf0f1;
-  }
-
-  .notes-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  .notes-list li {
-    padding: 1rem 0;
-    border-bottom: 1px solid #ecf0f1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .notes-list a {
-    color: #2c3e50;
-    text-decoration: none;
-    flex: 1;
-  }
-
-  .notes-list a:hover {
-    color: #3498db;
-  }
-</style>
 {{ end }}
