@@ -1,11 +1,23 @@
 {{ define "main" }}
-<h2>{{ .Title }}</h2>
-<ul>
-  {{ range .Pages }}
-  <li>
-    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-    <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
-  </li>
+<div class="page-title">
+  <h1 class="mb-1">{{ .Title }}</h1>
+  <p class="text-muted mb-0">{{ len .Pages }} items</p>
+</div>
+
+<div class="list-group">
+  {{ range .Pages.ByDate.Reverse }}
+    <a class="list-group-item list-group-item-action d-flex justify-content-between align-items-start gap-3" href="{{ .RelPermalink }}">
+      <div>
+        <div class="fw-semibold">{{ .Title }}</div>
+        <div class="text-muted small">{{ .Date.Format "Jan 2, 2006" }}</div>
+      </div>
+      {{ with .Params.status }}
+        {{ $s := lower . }}
+        {{ if eq $s "active" }}<span class="badge text-bg-info">active</span>{{ end }}
+        {{ if eq $s "done" }}<span class="badge text-bg-success">done</span>{{ end }}
+        {{ if eq $s "idea" }}<span class="badge text-bg-secondary">idea</span>{{ end }}
+      {{ end }}
+    </a>
   {{ end }}
-</ul>
+</div>
 {{ end }}
