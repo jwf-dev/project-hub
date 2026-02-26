@@ -38,7 +38,7 @@ def main():
         sys.exit(1)
     
     # Get current date in ISO format
-    date = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+    date = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d")
     
     # Create frontmatter and template
     content = f"""---

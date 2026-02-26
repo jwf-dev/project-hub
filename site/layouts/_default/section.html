@@ -1,15 +1,15 @@
 {{ define "main" }}
 <h2>{{ .Title }}</h2>
-{{ if eq .Section "Projects" }}
+
+{{ if in .File.Dir "Projects" -}}
   <h3>By Status</h3>
-  {{ $pages := where .Pages "Type" "page" }}
-  
-  {{ range $status := slice "idea" "active" "done" }}
+  {{ $pages := .RegularPages }}
+  {{ range $status := slice "idea" "active" "done" -}}
     {{ $filtered := where $pages "Params.status" $status }}
-    {{ if $filtered }}
+    {{ if $filtered -}}
       <h4 class="status status-{{ $status }}">{{ $status | title }}</h4>
       <ul>
-        {{ range $filtered }}
+        {{ range $filtered -}}
         <li>
           <a href="{{ .RelPermalink }}">{{ .Title }}</a>
           <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
@@ -19,19 +19,20 @@
       </ul>
     {{ end }}
   {{ end }}
-{{ else if eq .Section "Notes" }}
+{{ else if in .File.Dir "Notes" -}}
   <h3>All Notes</h3>
   <ul>
-    {{ range .Pages.ByDate.Reverse }}
+    {{ $pages := .RegularPages }}
+    {{ range $pages.ByDate.Reverse -}}
     <li>
       <a href="{{ .RelPermalink }}">{{ .Title }}</a>
       <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
     </li>
     {{ end }}
   </ul>
-{{ else }}
+{{ else -}}
   <ul>
-    {{ range .Pages }}
+    {{ range .RegularPages }}
     <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
     {{ end }}
   </ul>

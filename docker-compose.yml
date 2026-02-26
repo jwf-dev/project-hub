@@ -2,14 +2,15 @@ version: "3.8"
 
 services:
   hugo:
-    image: klakegg/hugo:latest
+    image: klakegg/hugo:latest-ext
     container_name: project-hub
     volumes:
       - ./site:/src
+      - ./.git:/src/.git
     working_dir: /src
     command: server -D --bind 0.0.0.0 --baseURL http://localhost:1313
     ports:
       - "1313:1313"
     environment:
-      - HUGO_ENABLEGITINFO=true
+      - HUGO_ENABLEGITINFO=false
     restart: unless-stopped
