@@ -35,16 +35,12 @@
                     <p class="card-text text-muted">{{ . }}</p>
                   {{ end }}
 
-                  {{ with .Params.tags }}
-                    <div class="mt-auto d-flex align-items-center justify-content-between gap-2">
-                      <a class="btn btn-secondary btn-sm" href="{{ .RelPermalink }}">View</a>
-                      <span class="badge text-bg-light text-dark">🏷️ {{ len . }}</span>
-                    </div>
-                  {{ else }}
-                    <div class="mt-auto">
-                      <a class="btn btn-secondary btn-sm" href="{{ .RelPermalink }}">View</a>
-                    </div>
-                  {{ end }}
+                  <div class="mt-auto">
+                    <a class="btn btn-secondary btn-sm" href="{{ .RelPermalink }}">View</a>
+                    {{ with .Params.tags }}
+                      <span class="badge text-bg-light text-dark ms-2">🏷️ {{ len . }}</span>
+                    {{ end }}
+                  </div>
                 </div>
               </div>
             </div>
