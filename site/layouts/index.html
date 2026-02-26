@@ -13,7 +13,7 @@
       <article class="project-card">
         <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
         {{ if .Params.status }}
-        <span class="badge" style="background: {{ if eq .Params.status "idea" }}#e0e0e0{{ else if eq .Params.status "active" }}#2ecc71{{ else }}#3498db{{ end }}">
+        <span class="badge badge-{{ .Params.status }}">
           {{ .Params.status }}
         </span>
         {{ end }}
