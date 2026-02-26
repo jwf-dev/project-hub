@@ -1,14 +1,16 @@
 # Project Hub
 
-A lightweight, local-first Hugo website that renders a curated subset of your Obsidian vault. Everything runs on your home network—no public hosting, no cloud sync required.
+A professional, local-first Hugo website that renders a curated subset of your Obsidian vault. Everything runs on your home network—no public hosting, no cloud sync required.
 
 ## Overview
 
 - **Obsidian Integration**: Syncs notes from your `Publish/` folder (via iCloud Drive or manual sync)
-- **Local Serving**: Docker Compose runs Hugo in dev mode on `http://localhost:1313`
+- **Professional Design**: Responsive layouts with modern styling (card-based UI, status badges, dark mode support)
+- **Local Serving**: Docker Compose runs Hugo in dev mode on `http://localhost:1313` with live reload
 - **Safety First**: Only publishes files you explicitly place in `Publish/`
-- **Project Management**: Built-in project creation tool with status tracking
+- **Project Management**: Built-in automation for creating and organizing projects by status
 - **No Secrets**: Guidance to keep credentials out of published content
+- **Config as Code**: Hugo config/_default/ pattern for easy customization
 
 ## Quick Start
 
@@ -60,17 +62,30 @@ Place Markdown files anywhere under `site/content/Notes/` and run the sync scrip
 
 ```
 Project-Hub/
-├── docker-compose.yml          # Dev server config
+├── docker-compose.yml          # Dev server config (Hugo on port 1313)
 ├── README.md                   # This file
 ├── .gitignore                  # Excludes secrets, caches, iCloud
-├── site/                       # Hugo source
-│   ├── config.toml             # Hugo config
-│   ├── content/                # Markdown files
+├── site/                       # Hugo source directory
+│   ├── config/
+│   │   └── _default/
+│   │       ├── hugo.toml       # Main Hugo configuration
+│   │       └── params.toml     # Site parameters & metadata
+│   ├── content/                # Markdown files (synced from vault)
 │   │   ├── Projects/           # Project pages
-│   │   │   └── _index.md       # Projects list page
-│   │   └── Notes/              # Regular notes
+│   │   │   ├── _index.md       # Projects list page
+│   │   │   └── landing-page-design.md  # Example project
+│   │   └── Notes/              # Regular notes (synced from Publish/)
 │   │       └── _index.md       # Notes list page
-│   └── layouts/                # HTML templates
+│   ├── layouts/                # Custom HTML templates
+│   │   ├── _default/
+│   │   │   ├── baseof.html     # Base template (header/footer/nav)
+│   │   │   ├── section.html    # Section pages (Projects, Notes lists)
+│   │   │   ├── single.html     # Individual page layout
+│   │   │   └── taxonomy.html   # Tag pages
+│   │   └── index.html          # Home page
+│   └── static/
+│       └── css/
+│           └── style.css       # Responsive styling
 └── scripts/
     ├── sync_content.sh         # Sync from vault to site/content
     └── new_project.py          # Create new project template
@@ -152,6 +167,30 @@ title: My Page
 date: 2026-02-26
 ---
 ```
+
+## Design & Styling
+
+### Layout
+- **Responsive**: Mobile-friendly design that works on phones, tablets, and desktops
+- **Sticky Header**: Navigation bar stays at top while scrolling
+- **Card-based UI**: Projects displayed as attractive cards with hover effects
+- **Status Badges**: Visual indicators for project status (idea, active, done)
+
+### Color Scheme
+- **Primary**: #3498db (bright blue) — links and accents
+- **Secondary**: #2c3e50 (dark gray) — headers and main text
+- **Success**: #2ecc71 (green) — "done" status
+- **Light**: #ecf0f1 (light gray) — backgrounds and borders
+
+### Dark Mode
+The site supports dark mode (respects system `prefers-color-scheme`). CSS automatically adjusts colors for readability.
+
+### Customization
+Edit `site/static/css/style.css` to:
+- Change colors (update `:root` variables)
+- Modify fonts (update `body` font-family)
+- Adjust spacing (update margin/padding utilities)
+- Add new components (add CSS classes and styles)
 
 ## Advanced: GitHub Setup
 
