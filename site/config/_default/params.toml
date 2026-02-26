@@ -1,0 +1,54 @@
+# PaperMod Theme Parameters
+description = "A curated collection of projects and notes from your Obsidian vault"
+
+# Home Info
+[homeInfoParams]
+  Title = "Welcome to Project Hub"
+  Content = "A curated collection of projects and notes from your Obsidian vault. Powered by Hugo and running on your home network."
+
+# Profile Mode (optional, for author section)
+[profileMode]
+  enabled = false
+
+# UI Configuration
+[ui]
+  # Appearance
+  theme = "auto"  # auto, light, dark
+  showBreadcrumbs = true
+  showPostNavLinks = true
+  showToc = true
+
+[params]
+  # Content
+  defaultTheme = "auto"
+  disableThemeToggle = false
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowToc = true
+  TocOpen = false
+  comments = false
+  
+  # Archives
+  ShowArchives = true
+  
+  # Search
+  env = "production"
+  
+  # Fuzzy Search
+  fuseOpts = { isCaseSensitive = false, shouldSort = true, location = 0, distance = 1000, threshold = 0.4, minMatchCharLength = 0, keys = [ { name = "title", weight = 100 }, { name = "permalink", weight = 80 }, { name = "summary", weight = 75 } ] }
+
+# Author info
+[author]
+  name = "Andy"
+  email = "andy@local.dev"
+
+# Social links
+[[params.socialIcons]]
+  name = "github"
+  url = "https://github.com/andywitt1"
+
+[[params.socialIcons]]
+  name = "RssFeed"
+  url = "index.xml"

@@ -12,11 +12,6 @@ enableGitInfo = false
   status = "status"
   tag = "tags"
 
-[params]
-  description = "A curated collection of projects and notes from your Obsidian vault"
-  site_logo = ""
-  favicon = ""
-
 [outputs]
   home = ["HTML"]
   section = ["HTML"]

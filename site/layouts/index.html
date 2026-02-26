@@ -1,33 +1,122 @@
 {{ define "main" }}
-<h2>Welcome to Project Hub</h2>
-<p>{{ .Site.Params.description }}</p>
+<div class="toc-container">
+  <h1>{{ .Site.Title }}</h1>
+  <p style="color: #666; margin-bottom: 2rem;">{{ .Site.Params.description }}</p>
 
-<h2>Recent Projects</h2>
-{{ if where .Site.Pages "Section" "Projects" }}
-<ul>
-  {{ range first 5 (where .Site.Pages "Section" "Projects") }}
-  <li>
-    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-    {{ if .Params.status }}<span class="status status-{{ .Params.status }}">{{ .Params.status }}</span>{{ end }}
-    <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
-  </li>
-  {{ end }}
-</ul>
-{{ else }}
-<p>No projects yet. Use <code>python scripts/new_project.py "My Project"</code> to create one.</p>
-{{ end }}
+  <section class="recent-projects">
+    <h2 id="recent-projects">
+      <a href="/projects/" style="text-decoration: none;">Recent Projects →</a>
+    </h2>
+    {{ if where .Site.Pages "Section" "Projects" }}
+    <div class="projects-grid">
+      {{ range first 6 (where .Site.Pages "Section" "Projects") }}
+      <article class="project-card">
+        <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+        {{ if .Params.status }}
+        <span class="badge" style="background: {{ if eq .Params.status "idea" }}#e0e0e0{{ else if eq .Params.status "active" }}#2ecc71{{ else }}#3498db{{ end }}">
+          {{ .Params.status }}
+        </span>
+        {{ end }}
+        <p class="date">{{ .Date.Format "Jan 2, 2006" }}</p>
+        {{ if .Params.summary }}<p>{{ .Params.summary }}</p>{{ end }}
+      </article>
+      {{ end }}
+    </div>
+    {{ else }}
+    <p style="color: #999;">No projects yet. <a href="/projects/">Create one →</a></p>
+    {{ end }}
+  </section>
 
-<h2>Recent Notes</h2>
-{{ if where .Site.Pages "Section" "Notes" }}
-<ul>
-  {{ range first 5 (where .Site.Pages "Section" "Notes") }}
-  <li>
-    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-    <div class="date">{{ .Date.Format "Jan 2, 2006" }}</div>
-  </li>
-  {{ end }}
-</ul>
-{{ else }}
-<p>No notes yet. Run <code>scripts/sync_content.sh</code> to sync from your vault.</p>
-{{ end }}
+  <section class="recent-notes" style="margin-top: 3rem;">
+    <h2 id="recent-notes">
+      <a href="/notes/" style="text-decoration: none;">Recent Notes →</a>
+    </h2>
+    {{ if where .Site.Pages "Section" "Notes" }}
+    <ul>
+      {{ range first 8 (where .Site.Pages "Section" "Notes") }}
+      <li>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <span style="color: #999; font-size: 0.9rem;">{{ .Date.Format "Jan 2, 2006" }}</span>
+      </li>
+      {{ end }}
+    </ul>
+    {{ else }}
+    <p style="color: #999;">No notes yet. Run <code>./scripts/sync_content.sh</code> to sync from your vault.</p>
+    {{ end }}
+  </section>
+</div>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .project-card {
+    padding: 1.5rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    background: #fafafa;
+    transition: all 0.2s;
+  }
+  
+  .project-card:hover {
+    border-color: #3498db;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.1);
+  }
+  
+  .project-card h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+  }
+  
+  .project-card h3 a {
+    color: #2c3e50;
+    text-decoration: none;
+  }
+  
+  .project-card h3 a:hover {
+    color: #3498db;
+  }
+  
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+  }
+  
+  .date {
+    color: #999;
+    font-size: 0.9rem;
+    margin: 0.5rem 0 1rem 0;
+  }
+  
+  .recent-notes ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .recent-notes li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .recent-notes a {
+    color: #2c3e50;
+    text-decoration: none;
+  }
+  
+  .recent-notes a:hover {
+    color: #3498db;
+  }
+</style>
 {{ end }}

@@ -50,7 +50,7 @@ logs/
 temp/
 
 # Dependencies (if any)
-/site/themes/*/
+# Note: theme submodules are managed via .gitmodules, not ignored here
 
 # Local Docker volumes (if used)
 *.volume
