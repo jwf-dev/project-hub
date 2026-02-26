@@ -1,15 +1,17 @@
 /* Project Hub - Custom Styles */
+/* A beautiful, responsive site for local Obsidian publishing */
 
 :root {
-  --primary-color: #3498db;
-  --secondary-color: #2c3e50;
-  --light-color: #ecf0f1;
-  --text-color: #333;
-  --border-color: #ddd;
-  --success-color: #2ecc71;
-  --info-color: #3498db;
-  --warning-color: #f39c12;
-  --danger-color: #e74c3c;
+  --primary-color: #3498db;      /* Bright blue for links and accents */
+  --secondary-color: #2c3e50;    /* Dark gray for headers */
+  --light-color: #ecf0f1;        /* Light gray for backgrounds */
+  --text-color: #333;            /* Dark gray for text */
+  --border-color: #ddd;          /* Light border color */
+  --success-color: #2ecc71;      /* Green for "done" status */
+  --info-color: #3498db;         /* Blue for "active" status */
+  --warning-color: #f39c12;      /* Orange for alerts */
+  --danger-color: #e74c3c;       /* Red for errors */
+  --gray-color: #95a5a6;         /* Gray for "idea" status */
 }
 
 * {
@@ -249,28 +251,88 @@ tr:hover {
   }
 }
 
-/* Dark Mode (if using PaperMod's built-in dark mode toggle) */
+/* Print Styles */
+@media print {
+  header,
+  footer,
+  nav {
+    display: none;
+  }
+
+  main {
+    max-width: 100%;
+  }
+
+  a {
+    color: #2c3e50;
+    text-decoration: underline;
+  }
+}
+
+/* Dark Mode (respects system preferences) */
 @media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+
   body {
     background: #1a1a1a;
     color: #e0e0e0;
   }
 
+  a {
+    color: #5dade2;
+  }
+
+  header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 100%);
+  }
+
   code {
     background: #2c3e50;
+    color: #e0e0e0;
   }
 
   pre {
     background: #0d0d0d;
+    border: 1px solid #333;
   }
 
   .project-card,
   .post-card {
     background: #2a2a2a;
     border-color: #3a3a3a;
+    color: #e0e0e0;
+  }
+
+  .project-card a {
+    color: #5dade2;
+  }
+
+  table {
+    color: #e0e0e0;
+  }
+
+  th {
+    background: #2a2a2a;
+    border-bottom-color: #3a3a3a;
+  }
+
+  td {
+    border-bottom-color: #3a3a3a;
   }
 
   table tr:hover {
     background: #2a2a2a;
+  }
+
+  .post-summary {
+    background: #2a2a2a;
+    border-left-color: #5dade2;
+  }
+
+  footer {
+    background: #0d0d0d;
+    border-top: 1px solid #333;
   }
 }
